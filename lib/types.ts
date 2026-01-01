@@ -37,3 +37,12 @@ export interface SportRecord {
   participants: string
   status: SportStatus
 }
+
+export interface Medal {
+  id: string
+  athleteId: string
+  eventId: string
+  date: string // YYYY-MM-DD
+  medalType: "Gold" | "Silver" | "Bronze"
+  sport: string
+}

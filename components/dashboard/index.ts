@@ -1,0 +1,7 @@
+export { DashboardBanner } from "./banner"
+export { DashboardStatsGrid } from "./stats-grid"
+export { EventsSection } from "./events-section"
+export { QuickActions } from "./quick-actions"
+export { AthletesSection } from "./athletes-section"
+export { SportsSection } from "./sports-section"
+export { ProvincesSection } from "./provinces-section"

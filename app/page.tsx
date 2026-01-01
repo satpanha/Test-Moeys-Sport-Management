@@ -24,12 +24,28 @@ const INITIAL_EVENTS: Event[] = [
 
 const ATHLETES_DATA: Record<string, Athlete[]> = {
   "1": [
-    { id: "a1", name: "Sokha Mean", province: "Phnom Penh", medals: { gold: 1, silver: 0, bronze: 1 } },
-    { id: "a2", name: "Dara Van", province: "Siem Reap", medals: { gold: 0, silver: 1, bronze: 0 } },
+    {
+      id: "a1", name: "Sokha Mean", province: "Phnom Penh", medals: { gold: 1, silver: 0, bronze: 1 },
+      sport: "",
+      status: "Approved"
+    },
+    {
+      id: "a2", name: "Dara Van", province: "Siem Reap", medals: { gold: 0, silver: 1, bronze: 0 },
+      sport: "",
+      status: "Approved"
+    },
   ],
   "2": [
-    { id: "a1", name: "Sokha Mean", province: "Phnom Penh", medals: { gold: 0, silver: 2, bronze: 0 } },
-    { id: "a3", name: "Bora Khem", province: "Battambang", medals: { gold: 1, silver: 0, bronze: 0 } },
+    {
+      id: "a1", name: "Sokha Mean", province: "Phnom Penh", medals: { gold: 0, silver: 2, bronze: 0 },
+      sport: "",
+      status: "Approved"
+    },
+    {
+      id: "a3", name: "Bora Khem", province: "Battambang", medals: { gold: 1, silver: 0, bronze: 0 },
+      sport: "",
+      status: "Approved"
+    },
   ],
 }
 

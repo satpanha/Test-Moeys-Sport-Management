@@ -1,8 +1,5 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -13,6 +10,7 @@ import { CalendarIcon, Plus } from "lucide-react"
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
 import type { Athlete, Event } from "@/lib/types"
+import { useState } from "react"
 
 interface AddMedalDialogProps {
   athletes: Athlete[]
@@ -126,9 +124,9 @@ export function AddMedalDialog({ athletes, events, onAdd }: AddMedalDialogProps)
                 <SelectValue placeholder="Select medal type" />
               </SelectTrigger>
               <SelectContent className="rounded-xl">
-                <SelectItem value="Gold">🥇 Gold</SelectItem>
-                <SelectItem value="Silver">🥈 Silver</SelectItem>
-                <SelectItem value="Bronze">🥉 Bronze</SelectItem>
+                <SelectItem value="Gold">Gold</SelectItem>
+                <SelectItem value="Silver">Silver</SelectItem>
+                <SelectItem value="Bronze">Bronze</SelectItem>
               </SelectContent>
             </Select>
           </div>
