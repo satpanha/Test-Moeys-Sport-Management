@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectTriggerInput, SelectValue } from "@/components/ui/select"
 import { Search } from "lucide-react"
 import type { Sport } from "@/lib/types"
 import { useState } from "react"
@@ -35,9 +35,9 @@ export function EventFilters({ sports = [], onSearch, onSportChange }: EventFilt
       </div>
 
       <Select value={sport ?? ""} onValueChange={(v) => { setSport(v || null); onSportChange?.(v || null) }}>
-        <SelectTrigger className="h-11 rounded-xl bg-slate-50 border-slate-200 min-w-[150px]">
+        <SelectTriggerInput className="min-w-[150px]">
           <SelectValue placeholder="All Sports" />
-        </SelectTrigger>
+        </SelectTriggerInput>
         <SelectContent className="rounded-xl">
           <SelectItem value="">All Sports</SelectItem>
           {sports.map((s) => (

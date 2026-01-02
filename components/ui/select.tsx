@@ -50,6 +50,10 @@ function SelectTrigger({
   )
 }
 
+function SelectTriggerInput({ className, size = 'default', ...props }: React.ComponentProps<typeof SelectPrimitive.Trigger> & { size?: 'sm' | 'default' }) {
+  return <SelectTrigger className={cn("h-11 rounded-xl bg-slate-50 border-slate-200", className)} size={size} {...props} />
+}
+
 function SelectContent({
   className,
   children,
@@ -181,5 +185,6 @@ export {
   SelectScrollUpButton,
   SelectSeparator,
   SelectTrigger,
+  SelectTriggerInput,
   SelectValue,
 }

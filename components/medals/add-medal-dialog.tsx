@@ -3,7 +3,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectTriggerInput, SelectValue } from "@/components/ui/select"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { CalendarIcon, Plus } from "lucide-react"
@@ -63,9 +63,9 @@ export function AddMedalDialog({ athletes, events, onAdd }: AddMedalDialogProps)
               Select Athlete
             </Label>
             <Select value={athleteId} onValueChange={setAthleteId}>
-              <SelectTrigger id="athlete" className="h-11 rounded-xl bg-slate-50 border-slate-200">
+              <SelectTriggerInput id="athlete">
                 <SelectValue placeholder="Select athlete" />
-              </SelectTrigger>
+              </SelectTriggerInput>
               <SelectContent className="rounded-xl">
                 {athletes.map((athlete) => (
                   <SelectItem key={athlete.id} value={athlete.id}>
@@ -81,9 +81,9 @@ export function AddMedalDialog({ athletes, events, onAdd }: AddMedalDialogProps)
               Select Event
             </Label>
             <Select value={eventId} onValueChange={setEventId}>
-              <SelectTrigger id="event" className="h-11 rounded-xl bg-slate-50 border-slate-200">
+              <SelectTriggerInput id="event">
                 <SelectValue placeholder="Select event" />
-              </SelectTrigger>
+              </SelectTriggerInput>
               <SelectContent className="rounded-xl">
                 {events.map((event) => (
                   <SelectItem key={event.id} value={event.id}>
@@ -120,9 +120,9 @@ export function AddMedalDialog({ athletes, events, onAdd }: AddMedalDialogProps)
               Medal Type
             </Label>
             <Select value={medalType} onValueChange={setMedalType}>
-              <SelectTrigger id="medal" className="h-11 rounded-xl bg-slate-50 border-slate-200">
+              <SelectTriggerInput id="medal">
                 <SelectValue placeholder="Select medal type" />
-              </SelectTrigger>
+              </SelectTriggerInput>
               <SelectContent className="rounded-xl">
                 <SelectItem value="Gold">Gold</SelectItem>
                 <SelectItem value="Silver">Silver</SelectItem>

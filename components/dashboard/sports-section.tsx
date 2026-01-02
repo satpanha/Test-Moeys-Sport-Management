@@ -1,12 +1,25 @@
+"use client"
+
 import { Card } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Trophy, Users, Pencil, Trash2, Plus, Search } from "lucide-react"
+import { Trophy, Users, Plus } from "lucide-react"
 import type { SportRecord } from "@/lib/types"
+import { useMemo, useState } from "react"
+import CrudManager from "@/components/common/crud-manager"
+import { CreateSportDialog } from "@/components/sports/create-sport-dialog"
+import { EditSportDialog } from "@/components/sports/edit-sport-dialog"
+import { SportTable } from "@/components/sports/sport-table"
 
 export function SportsSection({ sports }: { sports: SportRecord[] }) {
+  const [list, setList] = useState<SportRecord[]>(sports)
+
+  const stats = useMemo(() => {
+    const totalSports = list.length
+    const activeSports = list.filter((s) => s.status !== "Completed").length
+    const totalParticipants = list.reduce((acc, cur) => acc + Number(cur.participants || 0), 0)
+    const categories = new Set(list.map((s) => s.category)).size
+    return { totalSports, activeSports, totalParticipants, categories }
+  }, [list])
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -19,17 +32,14 @@ export function SportsSection({ sports }: { sports: SportRecord[] }) {
             <p className="text-sm text-muted-foreground">Manage sports, categories, and participants</p>
           </div>
         </div>
-        <Button className="bg-[#1a4cd8] hover:bg-blue-700 rounded-xl gap-2 h-11">
-          <Plus className="h-4 w-4" /> Add Sport
-        </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {[
-          { label: "Total Sports", value: "8", color: "bg-purple-100", icon: Trophy, iconColor: "text-purple-600" },
-          { label: "Active Sports", value: "0", color: "bg-green-100", icon: Trophy, iconColor: "text-green-600" },
-          { label: "Total Participants", value: "660", color: "bg-blue-100", icon: Users, iconColor: "text-blue-600" },
-          { label: "Categories", value: "6", color: "bg-orange-100", icon: Trophy, iconColor: "text-orange-600" },
+          { label: "Total Sports", value: String(stats.totalSports), color: "bg-purple-100", icon: Trophy, iconColor: "text-purple-600" },
+          { label: "Active Sports", value: String(stats.activeSports), color: "bg-green-100", icon: Trophy, iconColor: "text-green-600" },
+          { label: "Total Participants", value: String(stats.totalParticipants), color: "bg-blue-100", icon: Users, iconColor: "text-blue-600" },
+          { label: "Categories", value: String(stats.categories), color: "bg-orange-100", icon: Trophy, iconColor: "text-orange-600" },
         ].map((s) => (
           <Card key={s.label} className="border-none shadow-sm overflow-hidden rounded-2xl">
             <div className="p-6">
@@ -47,63 +57,20 @@ export function SportsSection({ sports }: { sports: SportRecord[] }) {
         ))}
       </div>
 
-      <Card className="border-none shadow-sm rounded-2xl p-6 space-y-6">
-        <div className="flex flex-wrap gap-4">
-          <div className="relative flex-1 min-w-[200px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search sports..." className="pl-10 h-11 bg-slate-50 border-slate-200 rounded-xl" />
+      <CrudManager
+        initialItems={list}
+        idKey="id"
+        CreateComponent={CreateSportDialog}
+        EditComponent={EditSportDialog}
+        onCreate={(item) => setList((prev) => [item, ...prev])}
+        onEdit={(item) => setList((prev) => prev.map((s) => (s.id === item.id ? item : s)))}
+        onDelete={(id) => setList((prev) => prev.filter((s) => s.id !== id))}
+        renderList={({ items, onEditRequested, onDeleteRequested, openCreate }) => (
+          <div>
+            <SportTable sports={items} onEdit={(s) => onEditRequested(s)} onDelete={(id) => onDeleteRequested(id)} onCreate={() => openCreate()} />
           </div>
-          <select className="h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-medium">
-            <option>All Status</option>
-          </select>
-          <select className="h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-medium">
-            <option>All Categories</option>
-          </select>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="font-bold text-slate-800">Sports List ({sports.length})</h3>
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-slate-50/50">
-                <TableHead className="font-bold text-[10px] uppercase text-slate-400">Sport Name</TableHead>
-                <TableHead className="font-bold text-[10px] uppercase text-slate-400">Category</TableHead>
-                <TableHead className="font-bold text-[10px] uppercase text-slate-400">Participants</TableHead>
-                <TableHead className="font-bold text-[10px] uppercase text-slate-400">Status</TableHead>
-                <TableHead className="font-bold text-[10px] uppercase text-slate-400">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {sports.map((s) => (
-                <TableRow key={s.id}>
-                  <TableCell className="font-bold text-slate-700">{s.name}</TableCell>
-                  <TableCell className="text-slate-500 font-medium">{s.category}</TableCell>
-                  <TableCell className="text-slate-500 font-medium">{s.participants}</TableCell>
-                  <TableCell>
-                    <Badge
-                      className={`rounded-lg px-3 py-1 text-[10px] border-none ${
-                        s.status === "Completed"
-                          ? "bg-slate-100 text-slate-600"
-                          : s.status === "Ongoing"
-                          ? "bg-blue-500 text-white"
-                          : "bg-indigo-500 text-white"
-                      }`}
-                    >
-                      {s.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex gap-2">
-                      <Pencil className="h-4 w-4 text-slate-400 cursor-pointer" />
-                      <Trash2 className="h-4 w-4 text-slate-400 cursor-pointer" />
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      </Card>
+        )}
+      />
     </div>
   )
 }

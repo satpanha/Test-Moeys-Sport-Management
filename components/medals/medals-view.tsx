@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Search, Trophy, Download, } from "lucide-react"
@@ -10,6 +10,8 @@ import { MedalTable } from "./medal-table"
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
 import type { Event, Athlete, Medal } from "@/lib/types"
+import CrudManager from "../common/crud-manager"
+import CreateMedalDialog from "./create-medal-dialog"
 
 interface MedalsViewProps {
   events: Event[]
@@ -20,7 +22,8 @@ interface MedalsViewProps {
 }
 
 export function MedalsView({ events, athletes, selectedEventId, medals, setMedals }: MedalsViewProps) {
-  const filteredMedals = selectedEventId ? medals.filter((m) => m.eventId === selectedEventId) : medals
+  const [list, setList] = useState<Medal[]>(medals)
+  const filteredMedals = selectedEventId ? list.filter((m) => m.eventId === selectedEventId) : list
 
   const stats = useMemo(
     () => ({
@@ -55,7 +58,7 @@ export function MedalsView({ events, athletes, selectedEventId, medals, setMedal
                 date: format(data.date, "yyyy-MM-dd"),
                 medalType: data.medalType as "Gold" | "Silver" | "Bronze",
               }
-              setMedals((prev) => [...prev, newMedal])
+              setList((prev) => [...prev, newMedal])
             }}
           />
           <Button variant="outline" className="rounded-xl gap-2 h-11 border-blue-600 text-blue-600 hover:bg-blue-50 bg-transparent">
@@ -85,7 +88,16 @@ export function MedalsView({ events, athletes, selectedEventId, medals, setMedal
           </select>
         </div>
 
-        <MedalTable medals={filteredMedals} athletes={athletes} events={events} />
+        <CrudManager
+          initialItems={list}
+          idKey="id"
+          CreateComponent={(props) => <CreateMedalDialog {...props} athletes={athletes} events={events} />}
+          onCreate={(item) => setList((prev) => [...prev, item])}
+          onDelete={(id) => setList((prev) => prev.filter((m) => m.id !== id))}
+          renderList={({ items, openCreate, onDeleteRequested }) => (
+            <MedalTable medals={items} athletes={athletes} events={events} onCreate={() => openCreate()} onDelete={(id) => onDeleteRequested(id)} />
+          )}
+        />
       </div>
     </div>
   )

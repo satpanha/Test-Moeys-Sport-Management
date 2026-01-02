@@ -168,12 +168,11 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="p-4 border-t border-white/10">
-        <Button
-          className="w-full justify-start gap-2 bg-white text-[#1a4cd8] hover:bg-white/90 mb-4 rounded-xl font-bold"
-          size="sm"
-        >
-          <PlusCircle className="h-4 w-4" />
-          <span>Register Athlete</span>
+        <Button asChild className="w-full justify-start gap-2 bg-white text-[#1a4cd8] hover:bg-white/90 mb-4 rounded-xl font-bold" size="sm">
+          <a href="/register-enroll">
+            <PlusCircle className="h-4 w-4" />
+            <span>Register Athlete</span>
+          </a>
         </Button>
         <div className="flex items-center gap-3 px-2 py-4 bg-white/10 rounded-2xl">
           <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center font-bold text-xs">AU</div>

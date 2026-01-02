@@ -2,14 +2,26 @@ import { Card } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Edit2, Trash2 } from "lucide-react"
+import { Edit2, Trash2, Plus } from "lucide-react"
 import type { Event, Athlete, Medal } from "@/lib/types"
 
-export function MedalTable({ medals, athletes, events }: { medals: Medal[]; athletes: Athlete[]; events: Event[] }) {
+export function MedalTable({ medals, athletes, events, onCreate, onEdit, onDelete }: { medals: Medal[]; athletes: Athlete[]; events: Event[]; onCreate?: () => void; onEdit?: (m: Medal) => void; onDelete?: (id: string) => void }) {
 	return (
 		<Card className="border-none shadow-sm rounded-2xl p-6">
 			<Table>
 				<TableHeader>
+					<TableRow>
+						<TableHead colSpan={7} className="p-3">
+							<div className="flex items-center justify-between">
+								<h3 className="font-bold text-slate-800">Medal Awards ({medals.length})</h3>
+								{onCreate && (
+									<button type="button" onClick={() => onCreate?.()} className="bg-[#1a4cd8] hover:bg-blue-700 rounded-xl gap-2 h-11 inline-flex items-center px-4 text-white">
+										<Plus className="h-4 w-4" /> <span>Add Medal</span>
+									</button>
+								)}
+							</div>
+						</TableHead>
+					</TableRow>
 					<TableRow className="bg-slate-50/50">
 						<TableHead className="font-bold text-[10px] uppercase text-slate-400">Athlete</TableHead>
 						<TableHead className="font-bold text-[10px] uppercase text-slate-400">Sport</TableHead>
