@@ -4,10 +4,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Search, Eye, Pencil, Trash2, User} from "lucide-react"
-import type { Athlete } from "@/lib/types"
-import { useMemo, useState } from "react"
-import CrudManager from "@/components/common/crud-manager"
+import type { Athlete } from "@/src/types"
+import { useMemo, useState, useEffect } from "react"
+import CrudManager from "@/components/common/CrudManager"
 import CreateAthleteDialog from "@/components/athletes/create-athlete-dialog"
+import SectionHeader from "@/components/dashboard/SectionHeader"
+import StatsGrid from "@/components/dashboard/StateGrid"
 
 export function AthletesSection({ athletes }: { athletes: Athlete[] }) {
   const [list, setList] = useState<Athlete[]>(athletes)
@@ -16,39 +18,27 @@ export function AthletesSection({ athletes }: { athletes: Athlete[] }) {
   const pending = list.filter((a) => a.status === "Pending").length
   const rejected = list.filter((a) => a.status === "Rejected").length
 
+  useEffect(() => {
+    setList(athletes)
+  }, [athletes])
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="bg-slate-100 p-3 rounded-xl">
-            <User className="h-6 w-6 text-slate-600" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold">Athletes Management</h2>
-            <p className="text-sm text-muted-foreground">Manage athlete registrations and profiles</p>
-          </div>
-        </div>
-        <Button className="bg-[#1a4cd8] hover:bg-blue-700 rounded-xl gap-2 h-11">Register Athlete</Button>
-      </div>
+      <SectionHeader
+        icon={<User className="h-6 w-6 text-slate-600" />}
+        title="Athletes Management"
+        subtitle="Manage athlete registrations and profiles"
+        actions={<Button className="bg-[#1a4cd8] hover:bg-blue-700 rounded-xl gap-2 h-11">Register Athlete</Button>}
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {[
-          { label: "Total Athletes", value: String(total), color: "bg-blue-100", iconColor: "text-blue-600" },
-          { label: "Approved", value: String(approved), color: "bg-green-100", iconColor: "text-green-600" },
-          { label: "Pending", value: String(pending), color: "bg-yellow-100", iconColor: "text-yellow-600" },
-          { label: "Rejected", value: String(rejected), color: "bg-red-100", iconColor: "text-red-600" },
-        ].map((s) => (
-          <Card key={s.label} className="border-none shadow-sm rounded-2xl">
-            <div className="p-6 flex items-center gap-4">
-              <div className={`${s.color} p-3 rounded-xl`}></div>
-              <div>
-                <p className="text-xs text-muted-foreground font-medium uppercase">{s.label}</p>
-                <p className="text-2xl font-bold">{s.value}</p>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
+      <StatsGrid
+        items={[
+          { label: "Total Athletes", value: String(total), color: "bg-blue-100" },
+          { label: "Approved", value: String(approved), color: "bg-green-100" },
+          { label: "Pending", value: String(pending), color: "bg-yellow-100" },
+          { label: "Rejected", value: String(rejected), color: "bg-red-100" },
+        ]}
+      />
 
         <CrudManager
           initialItems={list}

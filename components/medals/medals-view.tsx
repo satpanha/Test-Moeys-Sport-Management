@@ -9,8 +9,8 @@ import { MedalCard } from "./medal-card"
 import { MedalTable } from "./medal-table"
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
-import type { Event, Athlete, Medal } from "@/lib/types"
-import CrudManager from "../common/crud-manager"
+import type { Event, Athlete, Medal } from "@/src/types"
+import CrudManager from "../common/CrudManager"
 import CreateMedalDialog from "./create-medal-dialog"
 
 interface MedalsViewProps {

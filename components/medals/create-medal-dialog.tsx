@@ -9,7 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
-import type { Athlete, Event, Medal } from "@/lib/types"
+import type { Athlete, Event, Medal } from "@/src/types"
 import { useState } from "react"
 
 type Props = {

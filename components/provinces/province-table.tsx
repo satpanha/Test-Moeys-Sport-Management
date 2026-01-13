@@ -3,10 +3,10 @@
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Search } from "lucide-react"
-import SearchTableWrapper from "@/components/common/search-table-wrapper"
+import SearchTableWrapper from "@/components/common/SearchTableWrapper"
 import { useMemo } from "react"
-import { EmptyState } from "@/components/common/empty-state"
-import type { Province } from "@/components/dashboard/provinces-section"
+import { EmptyState } from "@/components/common/EmptyState"
+import type { Province } from "@/components/dashboard/ProvincesSection"
 
 export function ProvinceTable({ provinces }: { provinces: Province[] }) {
   const filtered = useMemo(() => provinces, [provinces])

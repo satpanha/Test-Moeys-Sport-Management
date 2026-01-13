@@ -8,9 +8,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { PlusCircle, Calendar } from "lucide-react"
-import type { Sport, Event } from "@/lib/types"
+import type { Event } from "@/src/types"
 
-const SPORTS_LIST: Sport[] = ["Athletics", "Ball Games", "Martial Arts", "Traditional Sport", "Recreational Sport"]
+const SPORTS_LIST: string[] = ["Athletics", "Ball Games", "Martial Arts", "Traditional Sport", "Recreational Sport"]
 
 export function CreateEventDialog({ onCreate }: { onCreate: (event: Event) => void }) {
   const [open, setOpen] = useState(false)
@@ -18,7 +18,7 @@ export function CreateEventDialog({ onCreate }: { onCreate: (event: Event) => vo
     name: "",
     startDate: "",
     endDate: "",
-    sports: [] as Sport[],
+    sports: [] as string[],
   })
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -31,7 +31,7 @@ export function CreateEventDialog({ onCreate }: { onCreate: (event: Event) => vo
     setFormData({ name: "", startDate: "", endDate: "", sports: [] })
   }
 
-  const toggleSport = (sport: Sport) => {
+  const toggleSport = (sport: string) => {
     setFormData((prev) => ({
       ...prev,
       sports: prev.sports.includes(sport) ? prev.sports.filter((s) => s !== sport) : [...prev.sports, sport],

@@ -1,13 +1,13 @@
 import { DashboardStats, Province, Sport, Athlete, Medal, RecentRegistration } from '@/src/types';
 
 // Import JSON data
-import provincesData from '@/lib/data/mock/provinces.json';
-import sportsData from '@/lib/data/mock/sports.json';
-import athletesData from '@/lib/data/mock/athletes.json';
-import medalsData from '@/lib/data/mock/medals.json';
-import recentRegistrationsData from '@/lib/data/mock/recent-registrations.json';
-import eventsData from '@/lib/data/mock/events.json';
-import dashboardMetaData from '@/lib/data/mock/dashboard-meta.json';
+import provincesData from '../mock/provinces.json';
+import sportsData from '../mock/sports.json';
+import athletesData from '../mock/athletes.json';
+import medalsData from '../mock/medals.json';
+import recentRegistrationsData from '../mock/recent-registrations.json';
+import eventsData from '../mock/events.json';
+import dashboardMetaData from '../mock/dashboard-meta.json';
 
 // Type-safe data exports
 export const provinces: Province[] = provincesData as Province[];

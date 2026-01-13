@@ -44,5 +44,29 @@
       "bronze": 0
     },
     "photoUrl": "blob:http://localhost:3000/cabcaac9-02a0-4bc6-b255-6f7987ad35b2"
+  },
+  {
+    "id": "3",
+    "firstName": "PHOK",
+    "lastName": "KEOMONNYRATANAK",
+    "eventId": "1",
+    "dateOfBirth": "2025-09-19",
+    "gender": "Male",
+    "province": "Department C",
+    "sports": [
+      "Athletics"
+    ],
+    "email": "sport@sport.com",
+    "phone": "99886756",
+    "registrationDate": "2026-01-02",
+    "registeredAt": "2026-01-02T07:27:35.027Z",
+    "status": "pending",
+    "medals": {
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "photoUrl": "/avatars/default.jpg"
   }
+  
 ]

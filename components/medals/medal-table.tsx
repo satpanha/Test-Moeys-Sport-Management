@@ -3,7 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Edit2, Trash2, Plus } from "lucide-react"
-import type { Event, Athlete, Medal } from "@/lib/types"
+import type { Event, Athlete, Medal } from "@/src/types"
 
 export function MedalTable({ medals, athletes, events, onCreate, onEdit, onDelete }: { medals: Medal[]; athletes: Athlete[]; events: Event[]; onCreate?: () => void; onEdit?: (m: Medal) => void; onDelete?: (id: string) => void }) {
 	return (

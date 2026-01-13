@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ConfirmDialog } from "@/components/common/confirm-dialog"
+import { ConfirmDialog } from "@/components/common/ConfirmDialog"
 
 type CreateCompProps = {
   open: boolean

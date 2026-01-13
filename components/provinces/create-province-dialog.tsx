@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { CreateEntityDialog } from "@/components/common/create-entity-dialog"
+import { CreateEntityDialog } from "@/components/common/CreateEntityDialog"
 import { Input } from "@/components/ui/input"
-import type { Province } from "@/components/dashboard/provinces-section"
+import type { Province } from "@/components/dashboard/ProvincesSection"
 
 type Props = {
   open: boolean

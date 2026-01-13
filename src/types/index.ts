@@ -1,3 +1,4 @@
+export * from "./participation";
 export * from "./athlete";
 export * from "./event";
 export * from "./province";

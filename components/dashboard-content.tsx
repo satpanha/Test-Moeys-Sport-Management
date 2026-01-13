@@ -1,97 +1,73 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import type { Event, Athlete, SportRecord, Medal } from "@/lib/types"
+// import type { Event, Athlete, SportRecord, Medal } from "@/src/types"
+import type { Event, Athlete, SportRecord ,Medal } from "@/src/types"
 import {
   Search,
   Bell,
-  Calendar,
-  Users,
-  Trophy,
-  Map,
-  MedalIcon,
-  Eye,
-  Pencil,
-  Trash2,
-  Download,
-  Plus,
-  Edit2,
+
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { useSearchParams, useRouter } from "next/navigation"
-import { Card, CardContent } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { CreateEventDialog, EventCard } from "@/components/events"
-import { DashboardBanner, DashboardStatsGrid, EventsSection, QuickActions, AthletesSection, SportsSection, ProvincesSection } from "@/components/dashboard"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { DashboardBanner, StatsGrid, EventsSection, QuickActions, AthletesSection, SportsSection, ProvincesSection } from "@/components/dashboard"
 import { MedalsView } from "@/components/medals"
-import { format } from "date-fns"
 import { cn } from "@/lib/utils"
 
-const INITIAL_EVENTS: Event[] = [
-  {
-    id: "1",
-    name: "32nd SEA GAMES",
-    startDate: "2026-11-09",
-    endDate: "2026-11-16",
-    sports: ["Athletics", "Ball Games", "Martial Arts"],
-  },
-  {
-    id: "2",
-    name: "National Youth Sports",
-    startDate: "2026-12-01",
-    endDate: "2026-12-10",
-    sports: ["Traditional Sport", "Athletics"],
-  },
-]
+const eventsMock: any = require("../src/lib/data/mock/events.json")
+const athletesMock: any = require("../src/lib/data/mock/athletes.json")
+const medalsMock: any = require("../src/lib/data/mock/medals.json")
+const sportsMock: any = require("../src/lib/data/mock/sports.json")
+const provincesMock: any = require("../src/lib/data/mock/provinces.json")
 
-const SPORTS_DATA: SportRecord[] = [
-  { id: "s1", name: "Basketball", category: "Team Sports", participants: "144/12", status: "Completed" },
-  { id: "s2", name: "Swimming", category: "Aquatics", participants: "96/8", status: "Ongoing" },
-  { id: "s3", name: "Athletics", category: "Track & Field", participants: "128/16", status: "Ongoing" },
-  { id: "s4", name: "Volleyball", category: "Team Sports", participants: "108/12", status: "Upcoming" },
-  { id: "s5", name: "Badminton", category: "Racquet Sports", participants: "64/4", status: "Completed" },
-]
+// Normalize mock athlete shape to internal `Athlete` type (src types expect different shape)
+const normalizeAthlete = (a: any): Athlete => ({
+  // provide required fields with safe defaults so this shape is compatible with `src/types`
+  id: String(a.id),
+  registeredAt: a.registeredAt ?? a.registrationDate ?? "",
+  name: `${a.firstName ?? a.name ?? ""} ${a.lastName ?? ""}`.trim(),
+  eventId: String(a.eventId ?? a.event ?? ""),
+  sportId: a.sportId ?? "",
+  firstName: a.firstName ?? (a.name ? String(a.name).split(" ")[0] : ""),
+  lastName: a.lastName ?? "",
+  dateOfBirth: a.dateOfBirth ?? "",
+  gender: (a.gender && String(a.gender).toLowerCase()) || "other",
+  province: a.province ?? "",
+  department: a.department ?? "",
+  eventType: a.eventType ?? "",
+  sports: Array.isArray(a.sports) ? a.sports : (a.sport ? [a.sport] : []),
+  position: a.position ?? "",
+  nationalID: a.nationalId ?? a.nationalID ?? "",
+  email: a.email ?? "",
+  phone: a.phone ?? "",
+  photoUrl: a.photoUrl ?? "",
+  registrationDate: a.registrationDate ?? "",
+  status: (a.status?.toString().toLowerCase() === "approved"
+    ? "approved"
+    : a.status?.toString().toLowerCase() === "rejected"
+    ? "rejected"
+    : "pending") as any,
+  medals: {
+    gold: Number(a.medals?.gold ?? 0),
+    silver: Number(a.medals?.silver ?? 0),
+    bronze: Number(a.medals?.bronze ?? 0),
+  },
+})
 
-const ATHLETES_DATA: Record<string, Athlete[]> = {
-  "1": [
-    {
-      id: "a1",
-      name: "SAT PANHA",
-      province: "Phnom Penh",
-      sport: "Boxing",
-      status: "Approved",
-      medals: { gold: 1, silver: 0, bronze: 0 },
-    },
-    {
-      id: "a2",
-      name: "Choun Rathanak",
-      province: "Siem Reap",
-      sport: "Badminton",
-      status: "Approved",
-      medals: { gold: 0, silver: 1, bronze: 0 },
-    },
-  ],
-  "2": [
-    {
-      id: "a1",
-      name: "SAT PANHA",
-      province: "Phnom Penh",
-      sport: "Boxing",
-      status: "Approved",
-      medals: { gold: 0, silver: 2, bronze: 0 },
-    },
-    {
-      id: "a3",
-      name: "Bora Khem",
-      province: "Battambang",
-      sport: "Swimming",
-      status: "Pending",
-      medals: { gold: 1, silver: 0, bronze: 0 },
-    },
-  ],
-}
+const EVENTS: Event[] = (eventsMock as any) as Event[]
+const SPORTS: SportRecord[] = (sportsMock as any) as SportRecord[]
+const ATHLETES = ((athletesMock as any[]) || []).map(normalizeAthlete)
+const ATHLETES_BY_EVENT: Record<string, Athlete[]> = ((athletesMock as any[]) || []).reduce((acc, a: any) => {
+  const key = String(a.eventId ?? a.event ?? "")
+  const na = normalizeAthlete(a)
+  if (!acc[key]) acc[key] = []
+  acc[key].push(na)
+  return acc
+}, {} as Record<string, Athlete[]>)
+
+const INITIAL_EVENTS: Event[] = EVENTS
+const SPORTS_DATA: SportRecord[] = SPORTS
+const ATHLETES_DATA: Record<string, Athlete[]> = ATHLETES_BY_EVENT
 
 export function DashboardContent() {
   const searchParams = useSearchParams()
@@ -102,16 +78,19 @@ export function DashboardContent() {
 
   const [events, setEvents] = useState<Event[]>(INITIAL_EVENTS)
   const [selectedEventId, setSelectedEventId] = useState<string | null>(eventIdFromUrl)
-  const [medals, setMedals] = useState<Medal[]>([
-    {
-      id: "m1",
-      athleteId: "a1",
-      eventId: "1",
-      date: "2025-10-12",
-      medalType: "Gold",
-      sport: "Boxing",
-    },
-  ])
+  const initialMedals: Medal[] = ((medalsMock as any[]) || []).map((m) => ({
+    id: String(m.id),
+    athleteId: String(m.athleteId),
+    athleteName: m.athleteName ?? "",
+    sportId: m.sportId ?? "",
+    sportName: m.sportName ?? m.sport ?? "",
+    medalType: (m.medalType ? String(m.medalType).toLowerCase() : "gold") as any,
+    province: m.province ?? "",
+    awardedDate: m.awardedDate ?? m.date ?? "",
+    event: String(m.eventId ?? m.event ?? ""),
+  }))
+
+  const [medals, setMedals] = useState<Medal[]>(initialMedals)
 
   useEffect(() => {
     setSelectedEventId(eventIdFromUrl)
@@ -124,12 +103,15 @@ export function DashboardContent() {
     Object.values(ATHLETES_DATA)
       .flat()
       .forEach((a) => {
+        const medals = a.medals ?? { gold: 0, silver: 0, bronze: 0 }
         if (combined[a.id]) {
-          combined[a.id].medals.gold += a.medals.gold
-          combined[a.id].medals.silver += a.medals.silver
-          combined[a.id].medals.bronze += a.medals.bronze
+          const cm = combined[a.id]
+          cm.medals = cm.medals ?? { gold: 0, silver: 0, bronze: 0 }
+          cm.medals.gold = (cm.medals.gold ?? 0) + medals.gold
+          cm.medals.silver = (cm.medals.silver ?? 0) + medals.silver
+          cm.medals.bronze = (cm.medals.bronze ?? 0) + medals.bronze
         } else {
-          combined[a.id] = { ...a, medals: { ...a.medals } }
+          combined[a.id] = { ...a, medals: { gold: medals.gold, silver: medals.silver, bronze: medals.bronze } }
         }
       })
     return Object.values(combined)
@@ -141,9 +123,10 @@ export function DashboardContent() {
     const provinces: Record<string, { gold: number; silver: number; bronze: number; athletes: number }> = {}
     currentAthletes.forEach((a) => {
       if (!provinces[a.province]) provinces[a.province] = { gold: 0, silver: 0, bronze: 0, athletes: 0 }
-      provinces[a.province].gold += a.medals.gold
-      provinces[a.province].silver += a.medals.silver
-      provinces[a.province].bronze += a.medals.bronze
+      const medals = a.medals ?? { gold: 0, silver: 0, bronze: 0 }
+      provinces[a.province].gold += medals.gold
+      provinces[a.province].silver += medals.silver
+      provinces[a.province].bronze += medals.bronze
       provinces[a.province].athletes += 1
     })
     return Object.entries(provinces).map(([name, stats]) => ({
@@ -154,8 +137,6 @@ export function DashboardContent() {
   }
 
   const renderAthletesView = () => <AthletesSection athletes={currentAthletes} />
-
-  // Medals view is now extracted to `components/medals/medals-view.tsx` and rendered below via <MedalsView />
 
   const renderSportsView = () => <SportsSection sports={SPORTS_DATA} />
 
@@ -169,6 +150,13 @@ export function DashboardContent() {
     }
     setSelectedEventId(id)
   }
+
+  const statsItems: any[] = [
+    { label: "Athletes", value: getAllAthletes().length },
+    { label: "Sports", value: SPORTS.length },
+    { label: "Provinces", value: (provincesMock as any[]).length },
+    { label: "Medals", value: medals.length },
+  ]
 
   return (
     <div className="flex flex-col flex-1 bg-slate-50/50 min-h-screen">
@@ -203,12 +191,7 @@ export function DashboardContent() {
           <>
             <DashboardBanner />
 
-            <DashboardStatsGrid
-              totalAthletes={getAllAthletes().length}
-              totalSports={8}
-              totalProvinces={25}
-              totalMedals={getProvinceStats().reduce((s, p) => s + p.total, 0)}
-            />
+            <StatsGrid items={statsItems} />
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-6">

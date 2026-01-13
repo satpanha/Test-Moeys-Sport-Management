@@ -3,10 +3,10 @@
  * Handles athlete registration form submission
  */
 
-import { useState, useEffect, useRef } from 'react';
-import { emitDashboardRefresh } from './eventBus';
-import { addAthlete } from '../lib/data/writer/dataWriter';
-import { FormData } from '../types/registration';
+import { useState, useEffect, useRef } from "react";
+import { emitDashboardRefresh } from "./eventBus";
+import { addAthlete } from "../lib/data/writer/dataWriter";
+import { FormData } from "../types/registration";
 
 interface UseRegisterReturn {
   submitRegistration: (formData: FormData) => Promise<void>;
@@ -52,34 +52,36 @@ export const useRegister = (): UseRegisterReturn => {
         firstNameKh: formData.firstNameKh || undefined,
         lastNameKh: formData.lastNameKh || undefined,
         dateOfBirth: formData.dateOfBirth,
-        gender: (formData.gender || 'male') as 'male' | 'female' | 'other',
-        province: formData.province || '',
+        gender: (formData.gender || "male") as "male" | "female" | "other",
+        province: formData.province || "",
         department: formData.department || undefined,
         eventType: formData.eventType || undefined,
         sports: formData.selectedSport ? [formData.selectedSport] : [],
-        sportCategory: formData.sportCategory || formData.typeOfSport || undefined,
+        sportCategory:
+          formData.sportCategory || formData.typeOfSport || undefined,
         position: formData.position || undefined,
         nationalID: formData.nationalID || undefined,
-        email: formData.email || '',
+        email: formData.email || "",
         phone: formData.phoneNumber,
-        registrationDate: new Date().toISOString().split('T')[0],
+        registrationDate: new Date().toISOString().split("T")[0],
         registeredAt: new Date().toISOString(),
-        status: 'approved' as const,
+        status: "approved" as const,
         medals: { gold: 0, silver: 0, bronze: 0 },
-        photoUrl: formData.photoUpload 
-          ? URL.createObjectURL(formData.photoUpload) 
-          : '/avatars/default.jpg',
+        photoUrl: formData.photoUpload
+          ? URL.createObjectURL(formData.photoUpload)
+          : "/avatars/default.jpg",
       };
 
       await addAthlete(athleteData);
-      
+
       if (isMountedRef.current) {
         setSuccess(true);
         emitDashboardRefresh();
       }
     } catch (err) {
       if (isMountedRef.current) {
-        const errorMessage = err instanceof Error ? err.message : 'Registration failed';
+        const errorMessage =
+          err instanceof Error ? err.message : "Registration failed";
         setError(errorMessage);
       }
       throw err;

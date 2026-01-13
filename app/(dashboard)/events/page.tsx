@@ -1,27 +1,28 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { EventsSection } from "@/components/dashboard"
-import type { Event } from "@/lib/types"
+import type { Event } from "@/src/types"
 import { useRouter } from "next/navigation"
-
-const INITIAL_EVENTS: Event[] = [
-  { id: "1", name: "32nd SEA GAMES", startDate: "2026-11-09", endDate: "2026-11-16", sports: ["Athletics", "Ball Games"] },
-  { id: "2", name: "National Youth Sports", startDate: "2026-12-01", endDate: "2026-12-10", sports: ["Traditional Sport"] },
-]
+import { useEvents } from "@/src/hooks/useEvents"
 
 export default function EventsPage() {
-  const [events, setEvents] = useState<Event[]>(INITIAL_EVENTS)
+  const { events: fetchedEvents } = useEvents()
+  const [events, setEvents] = useState<Event[]>(fetchedEvents as Event[])
   const router = useRouter()
 
+  useEffect(() => {
+    setEvents(fetchedEvents as Event[])
+  }, [fetchedEvents])
+
   const handleSelect = (id: string | null) => {
-    if (id) router.push(`/?event=${id}&view=dashboard`)
+    if (id) router.push(`/events/${id}`)
     else router.push("/")
   }
 
   return (
     <div className="p-6">
-      <EventsSection events={events} onCreate={(e) => setEvents([e, ...events])} onSelect={handleSelect} />
+      <EventsSection events={events} onCreate={(e) => setEvents((prev) => [e, ...prev])} onSelect={handleSelect} />
     </div>
   )
 }

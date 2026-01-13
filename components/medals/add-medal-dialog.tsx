@@ -9,11 +9,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon, Plus } from "lucide-react"
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
-import type { Athlete, Event } from "@/lib/types"
+import type { Participation, Event } from "@/src/types"
 import { useState } from "react"
 
 interface AddMedalDialogProps {
-  athletes: Athlete[]
+  athletes: Participation[]
   events: Event[]
   onAdd: (data: { athleteId: string; eventId: string; date: Date; medalType: string; sport: string }) => void
 }
@@ -36,7 +36,7 @@ export function AddMedalDialog({ athletes, events, onAdd }: AddMedalDialogProps)
       eventId,
       date,
       medalType,
-      sport: selectedAthlete?.sport || "N/A",
+      sport: selectedAthlete?.sportId || "N/A",
     })
 
     setOpen(false)

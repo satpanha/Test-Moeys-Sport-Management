@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import type { SportRecord, SportStatus } from "@/lib/types"
+import type { SportRecord, SportStatus } from "@/src/types"
 
 type Props = {
   open: boolean

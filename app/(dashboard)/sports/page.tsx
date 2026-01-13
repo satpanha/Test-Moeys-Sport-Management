@@ -1,7 +1,7 @@
 "use client"
 
 import { SportsSection } from "@/components/dashboard"
-import type { SportRecord } from "@/lib/types"
+import type { SportRecord } from "@/src/types"
 
 const SPORTS_DATA: SportRecord[] = [
   { id: "s1", name: "Basketball", category: "Team Sports", participants: "144/12", status: "Completed" },

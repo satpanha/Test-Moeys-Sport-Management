@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { CreateEntityDialog } from "@/components/common/create-entity-dialog"
+import { CreateEntityDialog } from "@/components/common/CreateEntityDialog"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import type { SportRecord, SportStatus } from "@/lib/types"
+import type { SportRecord, SportStatus } from "@/src/types"
 
 type Props = {
 	open: boolean

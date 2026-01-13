@@ -1,7 +1,7 @@
 "use client"
 
 import { ProvincesSection } from "@/components/dashboard"
-import type { Athlete } from "@/lib/types"
+import type { Athlete } from "@/src/types"
 
 const ATHLETES: Athlete[] = [
   { id: "a1", name: "Sokha Mean", province: "Phnom Penh", sport: "Boxing", status: "Approved", medals: { gold: 1, silver: 0, bronze: 0 } },

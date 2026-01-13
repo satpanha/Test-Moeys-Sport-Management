@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectTriggerInput, SelectValue } from "@/components/ui/select"
 import { Search } from "lucide-react"
-import type { Sport } from "@/lib/types"
+import type { Sport } from "@/src/types"
 import { useState } from "react"
 
 interface EventFiltersProps {

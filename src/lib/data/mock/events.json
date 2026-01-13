@@ -5,7 +5,12 @@
     "startDate": "2026-04-01",
     "endDate": "2026-04-14",
     "status": "upcoming",
-    "sports": ["Athletics","Football","Boxing","Swimming"]
+    "sports": [
+      { "id": "athletics", "name": "Athletics", "categories": ["Track", "Field"], "status": "upcoming" },
+      { "id": "football", "name": "Football", "categories": ["Men", "Women"], "status": "upcoming" },
+      { "id": "boxing", "name": "Boxing", "categories": ["Men", "Women"], "status": "upcoming" },
+      { "id": "swimming", "name": "Swimming", "categories": ["Freestyle", "Backstroke"], "status": "upcoming" }
+    ]
   },
   {
     "id": "evt-2",
@@ -13,6 +18,10 @@
     "startDate": "2025-11-10",
     "endDate": "2025-11-16",
     "status": "completed",
-    "sports": ["Badminton","Volleyball","Taekwondo"]
+    "sports": [
+      { "id": "badminton", "name": "Badminton", "categories": ["Singles", "Doubles"], "status": "Completed" },
+      { "id": "volleyball", "name": "Volleyball", "categories": ["Indoor", "Beach"], "status": "Completed" },
+      { "id": "taekwondo", "name": "Taekwondo", "categories": ["Poomse", "Kyorugi"], "status": "Completed" }
+    ]
   }
 ]

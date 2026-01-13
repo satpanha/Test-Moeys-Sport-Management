@@ -47,4 +47,4 @@ export function SearchTableWrapper({ children, statusOptions = [], categoryOptio
   )
 }
 
-export default SearchTableWrapper
+export default SearchTableWrapper;

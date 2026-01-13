@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Edit2, Trash2 } from "lucide-react"
-import type { Event } from "@/lib/types"
+import type { Event } from "@/src/types"
 
 interface EventTableProps {
   events: Event[]
@@ -28,7 +28,7 @@ export function EventTable({ events, onSelect, onEdit, onDelete }: EventTablePro
             <TableRow key={ev.id} className="cursor-pointer" onClick={() => onSelect?.(ev.id)}>
               <TableCell className="font-bold">{ev.name}</TableCell>
               <TableCell className="text-slate-500">{ev.startDate} - {ev.endDate}</TableCell>
-              <TableCell className="text-slate-500">{ev.sports.join(", ")}</TableCell>
+              <TableCell className="text-slate-500">{(ev.sports ?? []).map((s: any) => (typeof s === 'string' ? s : s?.name ?? '')).join(', ')}</TableCell>
               <TableCell>
                 <div className="flex items-center gap-2">
                   <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-slate-400" onClick={(e) => { e.stopPropagation(); onEdit?.(ev) }}>

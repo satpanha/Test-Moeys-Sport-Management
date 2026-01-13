@@ -11,9 +11,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Search, Pencil, Trash2, Plus } from "lucide-react";
 import { EditSportDialog } from "@/components/sports/edit-sport-dialog";
-import { ConfirmDialog } from "@/components/common/confirm-dialog";
-import SearchTableWrapper from "@/components/common/search-table-wrapper";
-import type { SportRecord } from "@/lib/types";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
+import SearchTableWrapper from "@/components/common/SearchTableWrapper";
+import type { SportRecord } from "@/src/types";
 import { useMemo, useState } from "react";
 
 export function SportTable({

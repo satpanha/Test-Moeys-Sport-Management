@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { MedalsView } from "@/components/medals"
-import type { Event, Athlete, Medal } from "@/lib/types"
+import type { Event, Athlete, Medal } from "@/src/types"
 
 const INITIAL_EVENTS: Event[] = [
   { id: "1", name: "32nd SEA GAMES", startDate: "2026-11-09", endDate: "2026-11-16", sports: ["Athletics"] },

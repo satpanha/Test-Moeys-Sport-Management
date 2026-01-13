@@ -15,17 +15,25 @@ import {
 } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, usePathname } from "next/navigation"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible"
+import { useEvents } from "@/src/hooks/useEvents"
 
 export function AppSidebar() {
   const searchParams = useSearchParams()
+  const pathname = usePathname()
+
+  // Hide sidebar for the public registration route
+  if (pathname === "/register") return null
+
   const currentView = searchParams.get("view") || "dashboard"
   const eventId = searchParams.get("event")
   const [isEventOpen, setIsEventOpen] = useState(!!eventId)
 
   const isEventViewActive =
     !!eventId && (currentView === "athletes" || currentView === "medals" || currentView === "provinces")
+
+  const { events: eventList, loading: eventsLoading } = useEvents()
 
   return (
     <Sidebar className="border-r border-border bg-[#1a4cd8] text-white">
@@ -108,6 +116,20 @@ export function AppSidebar() {
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   </SidebarMenuSub>
+                  {!eventsLoading && eventList.length > 0 && (
+                    <div className="mt-3 ml-4 border-l border-white/10 pl-3 space-y-1">
+                      {eventList.map((ev) => (
+                        <SidebarMenuSubItem key={ev.id}>
+                          <SidebarMenuSubButton
+                            asChild
+                            className={`text-white/80 hover:text-white hover:bg-white/10 ${pathname === `/events/${ev.id}` ? "bg-white/10 text-white" : ""}`}
+                          >
+                            <a href={`/events/${ev.id}`}>{ev.name}</a>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </div>
+                  )}
                 </CollapsibleContent>
               </SidebarMenuItem>
             </Collapsible>

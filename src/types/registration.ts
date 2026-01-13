@@ -1,27 +1,50 @@
+//registation
 import React from 'react';
+import type { ParticipationGender, ParticipationNationality, ParticipationPosition, ParticipationOrganization } from './participation'
 
 export interface FormData {
-  province: string | null;
-  department: string | null;
-  eventType: string | null;
-  typeOfSport: string | null;
-  selectedSport: string | null;
-  firstName: string;
-  lastName: string;
-  firstNameKh: string;
-  lastNameKh: string;
-  nationalID: string;
-  dateOfBirth: string;
-  gender?: string;
-  email?: string;
-  position: string | null;
-  phoneNumber: string;
-  photoUpload: File | null;
-  category?: string | null;
-  sportCategory: string | null;
-}
+  selectedSport?: string | string[] | null;
 
-export type RegistrationType = 'leader' | 'athletes';
+  id?: string;
+  registeredAt?: string | number | Date;
+  // Support either full `name` (as collected by the UI) or optional first/last name fields
+  name?: string;
+  firstName?: string;
+  lastName?: string;
+  firstNameKh?: string;
+  lastNameKh?: string;
+  gender?: ParticipationGender;
+  dateOfBirth?: string;
+  nationality?: ParticipationNationality;
+  position: ParticipationPosition | null;
+  organization?: ParticipationOrganization | null;
+
+  photoUpload?: File | null;
+  photoUrl?: string;
+
+  sportCategory?: string | null;
+  sports: string[];
+  eventId?: string | null;
+  sportId?: string | null;
+
+  registrationDate?: string;
+  phone?: string;
+  phoneNumber?: string;
+  email?: string;
+  nationalID?: string;
+
+  province?: string;
+  department?: string;
+
+  coach?: string;
+  assistant?: string;
+  event?: string;
+  sport?: string;
+
+  eventType?: string | null;
+  typeOfSport?: string | null;
+  category?: string | null;
+}
 
 export interface FormErrors {
   province?: string;
@@ -38,6 +61,8 @@ export interface FormErrors {
   position?: string;
   phoneNumber?: string;
   photoUpload?: string;
+  sports?: string;
+  organization?: string;
 }
 
 export type OnFieldChange = <K extends keyof FormData>(

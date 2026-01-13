@@ -1,4 +1,4 @@
-import type React from "react"
+import React from "react"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
@@ -40,10 +40,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans antialiased bg-slate-50/50`}>
+      <body suppressHydrationWarning className={`font-sans antialiased bg-slate-50/50`}>
         <SidebarProvider>
           <div className="flex min-h-screen w-full">
-            <AppSidebar />
+            <React.Suspense fallback={<div /> }>
+              <AppSidebar />
+            </React.Suspense>
             <div className="flex-1 flex flex-col min-w-0">{children}</div>
           </div>
         </SidebarProvider>

@@ -2,9 +2,9 @@
 
 import { Card } from "@/components/ui/card"
 import { Trophy, Users, Plus } from "lucide-react"
-import type { SportRecord } from "@/lib/types"
+import type { SportRecord } from "@/src/types"
 import { useMemo, useState } from "react"
-import CrudManager from "@/components/common/crud-manager"
+import CrudManager from "@/components/common/CrudManager"
 import { CreateSportDialog } from "@/components/sports/create-sport-dialog"
 import { EditSportDialog } from "@/components/sports/edit-sport-dialog"
 import { SportTable } from "@/components/sports/sport-table"

@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 
-export type EventItem = { id: string; name: string };
+import type { Event } from "../types";
 
 export function useEvents() {
-  const [events, setEvents] = useState<EventItem[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export function useEvents() {
       try {
         const res = await fetch("/api/events");
         const data = await res.json();
-        if (mounted) setEvents(data.events ?? []);
+        if (mounted) setEvents(data ?? data.events ?? []);
       } catch (err) {
         // keep silent; consumer components should handle empty state
         console.error("useEvents: failed to load events", err);

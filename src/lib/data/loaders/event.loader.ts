@@ -1,5 +1,5 @@
 import { Event } from "../../../types";
-import eventsData from "@/lib/data/mock/events.json";
+import eventsData from "../mock/events.json";
 
 const events: Event[] = eventsData as Event[];
 

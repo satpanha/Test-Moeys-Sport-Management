@@ -1,11 +1,13 @@
 "use client"
 
 import { Card } from "@/components/ui/card"
-import { Trophy, Users, Plus } from "lucide-react"
-import type { SportRecord } from "@/lib/types"
+import { Plus } from "lucide-react"
+import type { SportRecord } from "@/src/types"
 import { useMemo, useState } from "react"
 import { ProvinceTable } from "@/components/provinces/province-table"
 import { CreateProvinceDialog } from "@/components/provinces/create-province-dialog"
+import SectionHeader from "@/components/dashboard/SectionHeader"
+import StatsGrid from "@/components/dashboard/StateGrid"
 
 export type Province = {
   name: string
@@ -35,42 +37,28 @@ export function ProvincesSection({ provinces }: { provinces: Province[] }) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="bg-slate-100 p-3 rounded-xl">
-            <svg className="h-6 w-6 text-slate-400" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold">Province Statistics</h2>
-            <p className="text-sm text-muted-foreground">View province rankings and performance</p>
-          </div>
-        </div>
-        <div className="flex gap-3">
-          <button className="h-11 px-4 rounded-xl border border-blue-600 text-blue-600">Export</button>
-          <button onClick={() => setOpen(true)} className="bg-[#1a4cd8] hover:bg-blue-700 rounded-xl gap-2 h-11 inline-flex items-center px-4 text-white">
-            <Plus className="h-4 w-4" /> <span>Add Province</span>
-          </button>
-        </div>
-      </div>
+      <SectionHeader
+        icon={<svg className="h-6 w-6 text-slate-400" />}
+        title="Province Statistics"
+        subtitle="View province rankings and performance"
+        actions={
+          <>
+            <button className="h-11 px-4 rounded-xl border border-blue-600 text-blue-600">Export</button>
+            <button onClick={() => setOpen(true)} className="bg-[#1a4cd8] hover:bg-blue-700 rounded-xl gap-2 h-11 inline-flex items-center px-4 text-white">
+              <Plus className="h-4 w-4" /> <span>Add Province</span>
+            </button>
+          </>
+        }
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {[
+      <StatsGrid
+        items={[
           { label: "Total Provinces", value: String(stats.totalProvinces), color: "bg-blue-100" },
           { label: "Total Athletes", value: String(stats.totalAthletes), color: "bg-green-100" },
           { label: "Total Medals", value: String(stats.totalMedals), color: "bg-purple-100" },
           { label: "Avg Medals/Province", value: String(stats.avgMedals), color: "bg-orange-100" },
-        ].map((s) => (
-          <Card key={s.label} className="border-none shadow-sm rounded-2xl">
-            <div className="p-6 flex items-center gap-4">
-              <div className={`${s.color} p-3 rounded-xl`} />
-              <div>
-                <p className="text-xs text-muted-foreground font-medium uppercase">{s.label}</p>
-                <p className="text-2xl font-bold">{s.value}</p>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
+        ]}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="border-none shadow-sm rounded-3xl overflow-hidden relative p-8 h-full bg-white">
@@ -91,9 +79,9 @@ export function ProvincesSection({ provinces }: { provinces: Province[] }) {
                 <span className="text-xl font-black">1</span>
               </div>
               <div className="flex gap-3">
-                <span className="text-sm">🥇 1</span>
-                <span className="text-sm">🥈 0</span>
-                <span className="text-sm">🥉 0</span>
+                <span className="text-sm">1</span>
+                <span className="text-sm">0</span>
+                <span className="text-sm">0</span>
               </div>
               <div className="flex justify-between items-center pt-2 border-t">
                 <span className="text-slate-500 font-bold">Total Medals:</span>
